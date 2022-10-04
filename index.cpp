@@ -3,73 +3,18 @@
 #include <string>
 #include <cstdlib>
 using namespace std;
-
-
 struct prodotto{
     string codice;
     string nome;
     float prezzo;
     string categoria;
 };
-
-void visualizza(prodotto tabella[], int n);
 void leggi(prodotto tabella[], int &n);
+void visualizza(prodotto tabella[], int n);
+void aggiungi(prodotto tabella[], int &n);
 void elimina(prodotto tabella[], int &n);
-
-void visualizza(prodotto tabella[], int n){
-    for(int i=0; i<n; i++){
-        cout << tabella[i].codice << " ";
-        cout << tabella[i].nome << " ";
-        cout << tabella[i].prezzo << " ";
-        cout << tabella[i].categoria << endl;
-    }
-}
-
-void leggi(prodotto tabella[], int &n){
-    fstream in;
-    in.open("restourantdb.csv");
-    if(!in){
-        cout << "Errore nell'apertura del file";
-        exit(1);
-    }
-    n = 0;
-    string riga;
-    while(getline(in, riga)){
-        int pos = riga.find(';');
-        tabella[n].codice = riga.substr(0, pos);
-        riga = riga.substr(pos+1);
-        pos = riga.find(';');
-        tabella[n].nome = riga.substr(0, pos);
-        riga = riga.substr(pos+1);
-        pos = riga.find(';');
-        tabella[n].prezzo = stof(riga.substr(0, pos));
-        riga = riga.substr(pos+1);
-        tabella[n].categoria = riga;
-        n++;
-    }
-    in.close();
-}
-
-void elimina(prodotto tabella[], int &n){
-    string codice;
-    cout << "Codice: ";
-    cin >> codice;
-    int i;
-    for(i=0; i<n; i++){
-        if(tabella[i].codice == codice){
-            break;
-        }
-    }
-    if(i == n){
-        cout << "Prodotto non trovato" << endl;
-    }else{
-        for(int j=i; j<n-1; j++){
-            tabella[j] = tabella[j+1];
-        }
-        n--;
-    }
-}
-
+string cercaNome(prodotto tabella[], int n, string nome);
+void modifica(prodotto tabella[], int n);
 
 int main(){
     prodotto tabella[100];
@@ -94,16 +39,16 @@ int main(){
                 
                 cout << "Inserisci il nome del prodotto: ";
                 cin >> nome;
-                //cout << cercaNome(tabella, n, nome);
+                cout << cercaNome(tabella, n, nome);
                 break;
             case 3:
-                //aggiungi(tabella, n);
+                aggiungi(tabella, n);
                 break;
             case 4:
                 elimina(tabella, n);
                 break;
             case 5:
-                //modifica(tabella, n);
+                modifica(tabella, n);
                 break;
             case 6:
                 break;
@@ -112,4 +57,95 @@ int main(){
         }
     }while(scelta != 6);
     return 0;
+}
+void leggi(prodotto tabella[], int &n){
+    ifstream in("dispensa.csv");
+    if(!in){
+        cout << "Errore nell'apertura del file";
+        exit(1);
+    }
+    n = 0;
+    string riga;
+    while(getline(in, riga)){
+        int pos = riga.find(';');
+        tabella[n].codice = riga.substr(0, pos);
+        riga = riga.substr(pos+1);
+        pos = riga.find(';');
+        tabella[n].nome = riga.substr(0, pos);
+        riga = riga.substr(pos+1);
+        pos = riga.find(';');
+        tabella[n].prezzo = stof(riga.substr(0, pos));
+        riga = riga.substr(pos+1);
+        tabella[n].categoria = riga;
+        n++;
+    }
+    in.close();
+}
+void visualizza(prodotto tabella[], int n){
+    for(int i=0; i<n; i++){
+        cout << tabella[i].codice << " ";
+        cout << tabella[i].nome << " ";
+        cout << tabella[i].prezzo << " ";
+        cout << tabella[i].categoria << endl;
+    }
+}
+void aggiungi(prodotto tabella[], int &n){
+    cout << "Codice: ";
+    cin >> tabella[n].codice;
+    cout << "Nome: ";
+    cin >> tabella[n].nome;
+    cout << "Prezzo: ";
+    cin >> tabella[n].prezzo;
+    cout << "Categoria: ";
+    cin >> tabella[n].categoria;
+    n++;
+}
+void elimina(prodotto tabella[], int &n){
+    string codice;
+    cout << "Codice: ";
+    cin >> codice;
+    int i;
+    for(i=0; i<n; i++){
+        if(tabella[i].codice == codice){
+            break;
+        }
+    }
+    if(i == n){
+        cout << "Prodotto non trovato" << endl;
+    }else{
+        for(int j=i; j<n-1; j++){
+            tabella[j] = tabella[j+1];
+        }
+        n--;
+    }
+}
+void modifica(prodotto tabella[], int n){
+    string codice;
+    cout << "Codice: ";
+    cin >> codice;
+    int i;
+    for(i=0; i<n; i++){
+        if(tabella[i].codice == codice){
+            break;
+        }
+    }
+    if(i == n){
+        cout << "Prodotto non trovato" << endl;
+    }else{
+        cout << "Nuovo nome: ";
+        cin >> tabella[i].nome;
+        cout << "Nuovo prezzo: ";
+        cin >> tabella[i].prezzo;
+        cout << "Nuova categoria: ";
+        cin >> tabella[i].categoria;
+    }
+}
+
+string cercaNome(prodotto tabella[], int n, string nome){
+    for(int i=0; i<n; i++){
+        if(tabella[i].nome == nome){
+            return tabella[i].nome;
+        }
+    }
+    return "Prodotto non trovato";
 }
