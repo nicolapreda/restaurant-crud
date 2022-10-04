@@ -26,7 +26,8 @@ void visualizza(prodotto tabella[], int n){
 }
 
 void leggi(prodotto tabella[], int &n){
-    ifstream in("restourantdb.csv");
+    fstream in;
+    in.open("restourantdb.csv");
     if(!in){
         cout << "Errore nell'apertura del file";
         exit(1);
@@ -67,4 +68,48 @@ void elimina(prodotto tabella[], int &n){
         }
         n--;
     }
+}
+
+
+int main(){
+    prodotto tabella[100];
+    int n;
+    leggi(tabella, n);
+    int scelta;
+    do{
+        cout << "1. Visualizza tutti i prodotti" << endl;
+        cout << "2. Visualizza un prodotto" << endl;
+        cout << "3. Aggiungi un prodotto" << endl;
+        cout << "4. Elimina un prodotto" << endl;
+        cout << "5. Modifica un prodotto" << endl;
+        cout << "6. Esci" << endl;
+        cout << "Scelta: ";
+        cin >> scelta;
+        string nome;
+        switch(scelta){
+            case 1:
+                visualizza(tabella, n);
+                break;
+            case 2:
+                
+                cout << "Inserisci il nome del prodotto: ";
+                cin >> nome;
+                //cout << cercaNome(tabella, n, nome);
+                break;
+            case 3:
+                //aggiungi(tabella, n);
+                break;
+            case 4:
+                elimina(tabella, n);
+                break;
+            case 5:
+                //modifica(tabella, n);
+                break;
+            case 6:
+                break;
+            default:
+                cout << "Scelta non valida" << endl;
+        }
+    }while(scelta != 6);
+    return 0;
 }
