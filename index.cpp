@@ -12,8 +12,17 @@ struct prodotto{
     string categoria;
 };
 
+void visualizza(prodotto tabella[], int n);
 void leggi(prodotto tabella[], int &n);
 
+void visualizza(prodotto tabella[], int n){
+    for(int i=0; i<n; i++){
+        cout << tabella[i].codice << " ";
+        cout << tabella[i].nome << " ";
+        cout << tabella[i].prezzo << " ";
+        cout << tabella[i].categoria << endl;
+    }
+}
 
 void leggi(prodotto tabella[], int &n){
     ifstream in("restourantdb.csv");
