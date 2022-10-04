@@ -3,12 +3,83 @@
 #include <string>
 #include <cstdlib>
 using namespace std;
+
+
 struct prodotto{
     string codice;
     string nome;
     float prezzo;
     string categoria;
 };
+
+void filtra(prodotto *p, int n){
+    string sezione;
+    int filtVal;
+    //0 => filtra per codice
+    //1 => filtra per nome
+    //2 => filtra per prezzo
+    //3 => filtra per categoria
+    cout<<"0 => filtra per codice"<<endl;
+    cout<<"1 => filtra per nome"<<endl;
+    cout<<"2 => filtra per prezzo"<<endl;
+    cout<<"3 => filtra per categoria"<<endl;
+    cout<<"Inserisci il numero: ";
+    cin>>filtVal;
+
+
+
+    switch (filtVal)
+    {
+    case 0:
+        cout<<"Inserisci il codice da filtrare: ";
+        cin>>sezione;
+        for(int i=0; i<n; i++){
+            if(p[i].codice == sezione){
+                cout << p[i].codice << " " << p[i].nome << " " << p[i].prezzo << " " << p[i].categoria << endl;
+            }
+        }
+        break;
+
+    case 1:
+        cout<<"Inserisci il nome da filtrare: ";
+        cin>>sezione;
+        for(int i=0; i<n; i++){
+            if(p[i].nome == sezione){
+                cout << p[i].codice << " " << p[i].nome << " " << p[i].prezzo << " " << p[i].categoria << endl;
+            }
+        }
+        break;
+    
+    case 2:
+        cout<<"Inserisci il prezzo da filtrare: ";
+        cin>>sezione;
+        for(int i=0; i<n; i++){
+            if(p[i].prezzo == stof(sezione)){
+                cout << p[i].codice << " " << p[i].nome << " " << p[i].prezzo << " " << p[i].categoria << endl;
+            }
+        }
+        break;
+
+    case 3:
+
+        cout<<"Inserisci la categoria da filtrare: ";
+        cin>>sezione;
+        for(int i=0; i<n; i++){
+            if(p[i].categoria == sezione){
+                cout << p[i].codice << " " << p[i].nome << " " << p[i].prezzo << " " << p[i].categoria << endl;
+            }
+        }
+        break;
+
+    
+    default:
+        break;
+    }
+    
+}
+
+
+void filtra(prodotto *p, int n, string sezione);
 void leggi(prodotto tabella[], int &n);
 void visualizza(prodotto tabella[], int n);
 void aggiungi(prodotto tabella[], int &n);
@@ -27,7 +98,8 @@ int main(){
         cout << "3. Aggiungi un prodotto" << endl;
         cout << "4. Elimina un prodotto" << endl;
         cout << "5. Modifica un prodotto" << endl;
-        cout << "6. Esci" << endl;
+        cout << "6. Filtra un prodotto" << endl;
+        cout << "7. Esci" << endl;
         cout << "Scelta: ";
         cin >> scelta;
         string nome;
@@ -51,6 +123,10 @@ int main(){
                 modifica(tabella, n);
                 break;
             case 6:
+                filtra(tabella, n);
+                break;
+            case 7:
+                return 0;
                 break;
             default:
                 cout << "Scelta non valida" << endl;
@@ -59,7 +135,7 @@ int main(){
     return 0;
 }
 void leggi(prodotto tabella[], int &n){
-    ifstream in("dispensa.csv");
+    ifstream in("restaurantDB.csv");
     if(!in){
         cout << "Errore nell'apertura del file";
         exit(1);
@@ -81,14 +157,18 @@ void leggi(prodotto tabella[], int &n){
     }
     in.close();
 }
+
 void visualizza(prodotto tabella[], int n){
+    cout<<endl<<endl;
     for(int i=0; i<n; i++){
         cout << tabella[i].codice << " ";
         cout << tabella[i].nome << " ";
         cout << tabella[i].prezzo << " ";
         cout << tabella[i].categoria << endl;
     }
+    cout<<endl <<endl;
 }
+
 void aggiungi(prodotto tabella[], int &n){
     cout << "Codice: ";
     cin >> tabella[n].codice;
