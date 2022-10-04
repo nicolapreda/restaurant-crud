@@ -14,6 +14,7 @@ struct prodotto{
 
 void visualizza(prodotto tabella[], int n);
 void leggi(prodotto tabella[], int &n);
+void elimina(prodotto tabella[], int &n);
 
 void visualizza(prodotto tabella[], int n){
     for(int i=0; i<n; i++){
@@ -46,4 +47,24 @@ void leggi(prodotto tabella[], int &n){
         n++;
     }
     in.close();
+}
+
+void elimina(prodotto tabella[], int &n){
+    string codice;
+    cout << "Codice: ";
+    cin >> codice;
+    int i;
+    for(i=0; i<n; i++){
+        if(tabella[i].codice == codice){
+            break;
+        }
+    }
+    if(i == n){
+        cout << "Prodotto non trovato" << endl;
+    }else{
+        for(int j=i; j<n-1; j++){
+            tabella[j] = tabella[j+1];
+        }
+        n--;
+    }
 }
