@@ -23,6 +23,7 @@ void ordina(prodotto tabella[], int n);
 
 int main()
 {
+
     prodotto tabella[100];
     int n;
     leggi(tabella, n);
@@ -127,7 +128,16 @@ void aggiungi(prodotto tabella[], int &n)
     cin >> tabella[n].prezzo;
     cout << "Categoria: ";
     cin >> tabella[n].categoria;
+    // insert into file
+    ofstream out("restaurantDB.csv", ios::app);
+    if (!out)
+    {
+        cout << "Errore nell'apertura del file";
+        exit(1);
+    }
+    out << tabella[n].codice << ";" << tabella[n].nome << ";" << tabella[n].prezzo << ";" << tabella[n].categoria << endl;
     n++;
+    cout << endl;
 }
 void elimina(prodotto tabella[], int &n)
 {
@@ -299,67 +309,175 @@ void ordina(prodotto *p, int n)
     cout << "3 => ordina per categoria" << endl;
     cout << "Inserisci il numero: ";
     cin >> ordVal;
+    // ordina in ordine crescente o decrescente?
+    int ordLt;
+    // 0 => crescente
+    // 1 => decrescente
+    cout << "0 => crescente" << endl;
+    cout << "1 => decrescente" << endl;
+    cout << "Inserisci il numero: ";
+    cin >> ordLt;
 
     switch (ordVal)
     {
     case 0:
-        for (int i = 0; i < n; i++)
+        // ordina ordVal in ordine crescente o decrescente
+        switch (ordLt)
         {
-            for (int j = 0; j < n - 1; j++)
+        case 0:
+            // ordina per codice in ordine crescente
+            for (int i = 0; i < n - 1; i++)
             {
-                if (p[j].codice > p[j + 1].codice)
+                for (int j = i + 1; j < n; j++)
                 {
-                    prodotto temp = p[j];
-                    p[j] = p[j + 1];
-                    p[j + 1] = temp;
+                    if (p[i].codice > p[j].codice)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
                 }
             }
-        }
+            break;
 
+        case 1:
+            // ordina per codice in ordine decrescente
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (p[i].codice < p[j].codice)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
+                }
+            }
+            break;
+
+        default:
+            break;
+        }
         break;
-
     case 1:
-        for (int i = 0; i < n; i++)
+        switch (ordLt)
         {
-            for (int j = 0; j < n - 1; j++)
+        case 0:
+            // ordina per codice in ordine crescente
+            for (int i = 0; i < n - 1; i++)
             {
-                if (p[j].nome > p[j + 1].nome)
+                for (int j = i + 1; j < n; j++)
                 {
-                    prodotto temp = p[j];
-                    p[j] = p[j + 1];
-                    p[j + 1] = temp;
+                    if (p[i].nome > p[j].nome)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
                 }
             }
+            break;
+
+        case 1:
+            // ordina per codice in ordine decrescente
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (p[i].nome < p[j].nome)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
+                }
+            }
+            break;
+
+        default:
+            break;
         }
+
         break;
 
     case 2:
-        for (int i = 0; i < n; i++)
+        switch (ordLt)
         {
-            for (int j = 0; j < n - 1; j++)
+        case 0:
+            // ordina per codice in ordine crescente
+            for (int i = 0; i < n - 1; i++)
             {
-                if (p[j].prezzo > p[j + 1].prezzo)
+                for (int j = i + 1; j < n; j++)
                 {
-                    prodotto temp = p[j];
-                    p[j] = p[j + 1];
-                    p[j + 1] = temp;
+                    if (p[i].prezzo > p[j].prezzo)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
                 }
             }
+            break;
+
+        case 1:
+            // ordina per codice in ordine decrescente
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (p[i].prezzo < p[j].prezzo)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
+                }
+            }
+            break;
+        
+        default: 
+            break;
         }
         break;
 
     case 3:
-        for (int i = 0; i < n; i++)
+        switch (ordLt)
         {
-            for (int j = 0; j < n - 1; j++)
+        case 0:
+            // ordina per codice in ordine crescente
+            for (int i = 0; i < n - 1; i++)
             {
-                if (p[j].categoria > p[j + 1].categoria)
+                for (int j = i + 1; j < n; j++)
                 {
-                    prodotto temp = p[j];
-                    p[j] = p[j + 1];
-                    p[j + 1] = temp;
+                    if (p[i].categoria > p[j].categoria)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
                 }
             }
+            break;
+
+        case 1:
+            // ordina per codice in ordine decrescente
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (p[i].categoria < p[j].categoria)
+                    {
+                        prodotto temp = p[i];
+                        p[i] = p[j];
+                        p[j] = temp;
+                    }
+                }
+            }
+            break;
+        
+        default: 
+            break;
         }
         break;
 
@@ -407,14 +525,9 @@ void cerca(prodotto *p, int n)
         cout << "Inserisci il codice da cercare: ";
         cin >> sezione;
         cout << endl;
-        for (int i = 0; i < n; i++)
-        {
-            if (p[i].codice == sezione)
-            {
-                cout << p[i].codice << " " << p[i].nome << " " << p[i].prezzo << " " << p[i].categoria << endl;
-            }
-        }
+        // se ordVal == 0 allora ordina in ordine crescente, sennò in ordine decrescente
         cout << endl;
+
         break;
     case 1:
         cout << "Inserisci il nome da cercare: ";
